@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -13,5 +14,11 @@ func main() {
 
 	http.HandleFunc("/", h1)
 
-	log.Fatal(http.ListenAndServe(":8085", nil))
+	httpPort := os.Getenv("HTTP_PORT")
+	if httpPort == "" {
+		httpPort = "8080"
+	}
+	log.Println("START server port:" + httpPort)
+
+	log.Fatal(http.ListenAndServe(":"+httpPort, nil))
 }
